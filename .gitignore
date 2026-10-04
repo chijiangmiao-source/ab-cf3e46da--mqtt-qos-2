@@ -9,6 +9,7 @@ __pycache__/
 .tox/
 .nox/
 .npm-cache/
+data/
 .pnpm-store/
 .yarn-cache/
 *.pyc
