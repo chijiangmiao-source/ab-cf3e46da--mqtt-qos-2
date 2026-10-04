@@ -1,7 +1,10 @@
 .DS_Store
 .env
 .venv/
+.venv-local/
 node_modules/
+frontend/dist/
+audit-data/
 __pycache__/
 .pytest_cache/
 .mypy_cache/

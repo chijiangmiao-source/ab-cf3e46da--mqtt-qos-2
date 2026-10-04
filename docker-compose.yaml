@@ -1,0 +1,31 @@
+services:
+  web:
+    build:
+      context: .
+      target: runtime
+    image: mqtt-qos2-audit:latest
+    ports:
+      # 宿主机端口可配置：HOST_PORT=9090 docker compose up -d
+      - "${HOST_PORT:-8080}:8000"
+    environment:
+      AUDIT_STORE_PATH: /data/audits.json
+    volumes:
+      - audit-data:/data
+    restart: unless-stopped
+
+  # 运行方式：docker compose run --build --rm verify
+  # 退出码 0 表示全部通过，非 0 表示失败（代码测试/页面构建/HTTP 冒烟）。
+  verify:
+    profiles: ["verify"]
+    build:
+      context: .
+      target: verify
+    image: mqtt-qos2-audit-verify:latest
+    environment:
+      BASE_URL: http://web:8000
+    depends_on:
+      web:
+        condition: service_healthy
+
+volumes:
+  audit-data:
